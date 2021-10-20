@@ -1,5 +1,5 @@
-const arr = new Array(100).fill(0).map(item => random([1, 10], true))
-console.log(arr, quick_sort(arr))
+const arr = new Array(10).fill(0).map(item => random([1, 10], true))
+console.log(arr, heap_sort(arr))
 
 function swap(arr, i, j) {
   if (i === j) return
@@ -121,6 +121,45 @@ function quick_sort(arr) {
   return new_arr
 }
 
+/* 堆排序 */
+function heap_sort(arr) {
+  console.time()
+  const new_arr = [...arr]
+  for (let i = 0; i < new_arr.length; i++) heap_insert(new_arr, i)
+  for (let i = new_arr.length - 1; i >= 0; i--) {
+    swap(new_arr, i, 0)
+    heapify(new_arr, i)
+  }
+  console.timeEnd()
+  return new_arr
+
+  function heap_insert(arr, index) {
+    let parent = Math.floor((index - 1) / 2)
+    while (index > 0 && arr[index] > arr[parent]) {
+      swap(arr, index, parent)
+      index = parent
+      parent = Math.floor((index - 1) / 2)
+    }
+  }
+
+  function heapify(arr, index) {
+    let parent = 0
+    let max_index = max(parent)
+    while (max_index && arr[parent] < arr[max_index]) {
+      swap(arr, parent, max_index)
+      parent = max_index
+      max_index = max(parent)
+    }
+    function max(parent) {
+      const left_child_o = parent * 2 + 1
+      const right_child_o = left_child_o + 1
+      const left_child = left_child_o > index - 1 ? undefined : left_child_o
+      const right_child = right_child_o > index - 1 ? undefined : right_child_o
+      return left_child ? right_child ? arr[left_child] < arr[right_child] ? right_child : left_child : left_child : undefined
+    }
+  }
+}
+
 /* 二分查找 */
 function search(arr, val) {
   function inner(left, right) {
@@ -182,3 +221,8 @@ function helan_guoqi(arr, num) {
 /* 荷兰国旗问题: 给定一个数组arr和一个数num, 请把小于num的数放在数组的
 左边, 等于num的数放在数组的中间, 大于num的数放在数组的右边. 要求额外
 空间复杂度O(1), 时间复杂度O(n) */
+
+/* 已知一个几乎有序的数组, 几乎有序是指, 如果把数组排好顺序, 每个元素移动的
+距离可以不超过k, 并且相对于数组来说比较小. 请选择一个合适的排序算法针对这
+个数据进行排序 */
+// 用大小为k的堆进行排序即可
