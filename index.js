@@ -226,3 +226,7 @@ function helan_guoqi(arr, num) {
 距离可以不超过k, 并且相对于数组来说比较小. 请选择一个合适的排序算法针对这
 个数据进行排序 */
 // 用大小为k的堆进行排序即可
+
+function judge_char() {
+  
+}
